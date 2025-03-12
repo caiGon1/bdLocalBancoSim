@@ -60,6 +60,19 @@ public class conexaoBD {
         }
         
     }
+    
+    public void removerPessoa(bdDTO o){
+        String sql = "delete from usuarios where cpf=?;";
+        
+        try(Connection conn = conexaoBD.conectar();
+                java.sql.Statement stmt = conn.createStatement()){
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, o.getCpf());
+        } catch(Exception e){
+            System.out.println("Erro ao remover: "+e.getMessage());
+    }
+}
+    
     public ArrayList<bdDTO> listarUsers(){
         Connection conn = new conexaoBD().conectar();
         String sql = "select * from usuarios";

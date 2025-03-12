@@ -52,6 +52,7 @@ public class grafica extends javax.swing.JFrame {
         cpf_txt = new javax.swing.JTextField();
         add_btn = new javax.swing.JButton();
         rmv_btn = new javax.swing.JButton();
+        btn_del = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +67,11 @@ public class grafica extends javax.swing.JFrame {
                 "Nome", "Senha", "CPF", "Saldo"
             }
         ));
+        tabela_tb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabela_tbMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabela_tb);
 
         jLabel1.setText("Nome");
@@ -90,6 +96,13 @@ public class grafica extends javax.swing.JFrame {
         });
 
         rmv_btn.setText("Remover");
+        rmv_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rmv_btnMouseClicked(evt);
+            }
+        });
+
+        btn_del.setText("Deletar tudo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,6 +136,10 @@ public class grafica extends javax.swing.JFrame {
                                 .addComponent(saldo_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(40, 40, 40))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_del)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,7 +162,9 @@ public class grafica extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(saldo_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(btn_del)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -176,6 +195,27 @@ public class grafica extends javax.swing.JFrame {
        
        
     }//GEN-LAST:event_add_btnMouseClicked
+
+    private void rmv_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rmv_btnMouseClicked
+        String cpf = cpf_txt.getText();
+        bdDTO dto = new bdDTO();
+        conexaoBD dao = new conexaoBD();
+        
+        dto.setCpf(cpf);
+        dao.removerPessoa(dto);
+        clear();
+    }//GEN-LAST:event_rmv_btnMouseClicked
+
+    private void tabela_tbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabela_tbMouseClicked
+        int linha = tabela_tb.getSelectedRow();
+        if (linha >= 0) {
+        nome_txt.setText(tabela_tb.getModel().getValueAt(linha, 1).toString());
+        senha_txt.setText(tabela_tb.getModel().getValueAt(linha, 2).toString());
+        cpf_txt.setText(tabela_tb.getModel().getValueAt(linha, 3).toString());
+        saldo_txt.setText(tabela_tb.getModel().getValueAt(linha, 4).toString());
+        }
+        
+    }//GEN-LAST:event_tabela_tbMouseClicked
 
     public void listarFichas() {
         bdDTO objDTO = new bdDTO();
@@ -225,6 +265,7 @@ public class grafica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_btn;
+    private javax.swing.JButton btn_del;
     private javax.swing.JTextField cpf_txt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
