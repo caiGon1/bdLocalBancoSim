@@ -207,6 +207,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Deletar tudo"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_delMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

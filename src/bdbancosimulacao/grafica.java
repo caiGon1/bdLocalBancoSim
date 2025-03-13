@@ -103,6 +103,11 @@ public class grafica extends javax.swing.JFrame {
         });
 
         btn_del.setText("Deletar tudo");
+        btn_del.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_delMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,6 +196,7 @@ public class grafica extends javax.swing.JFrame {
        dto.setSaldo(saldo1);
        
        dao.adicionarPessoa(dto);
+       listarFichas();
        clear();
        
        
@@ -203,24 +209,33 @@ public class grafica extends javax.swing.JFrame {
         
         dto.setCpf(cpf);
         dao.removerPessoa(dto);
+        listarFichas();
         clear();
     }//GEN-LAST:event_rmv_btnMouseClicked
 
     private void tabela_tbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabela_tbMouseClicked
         int linha = tabela_tb.getSelectedRow();
         if (linha >= 0) {
-        nome_txt.setText(tabela_tb.getModel().getValueAt(linha, 1).toString());
-        senha_txt.setText(tabela_tb.getModel().getValueAt(linha, 2).toString());
-        cpf_txt.setText(tabela_tb.getModel().getValueAt(linha, 3).toString());
-        saldo_txt.setText(tabela_tb.getModel().getValueAt(linha, 4).toString());
+        nome_txt.setText(tabela_tb.getModel().getValueAt(linha, 0).toString());
+        senha_txt.setText(tabela_tb.getModel().getValueAt(linha, 1).toString());
+        cpf_txt.setText(tabela_tb.getModel().getValueAt(linha, 2).toString());
+        saldo_txt.setText(tabela_tb.getModel().getValueAt(linha, 3).toString());
         }
         
     }//GEN-LAST:event_tabela_tbMouseClicked
+
+    private void btn_delMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delMouseClicked
+        bdDTO dto = new bdDTO();
+        conexaoBD dao = new conexaoBD();
+        dao.removerTudo(dto);
+        listarFichas();
+    }//GEN-LAST:event_btn_delMouseClicked
 
     public void listarFichas() {
         bdDTO objDTO = new bdDTO();
         conexaoBD objDAO = new conexaoBD();
         ArrayList<bdDTO> lista = objDAO.listarUsers();
+        model.setRowCount(0);
         for (int i = 0; i < lista.size(); i++) {
             model.insertRow(model.getRowCount(), new Object[]{
                 lista.get(i).getNome(),
